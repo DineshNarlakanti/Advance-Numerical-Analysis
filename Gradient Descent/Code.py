@@ -39,13 +39,21 @@ for learning_rate in learning_rates:
     w1 = f_values[:-1]
     w2 = f_values[1:]
 
-    # Plot w1 and w2 values
-    # Plot trajectory
-    plt.figure()
-    plt.plot(w1, w2, 'bo-')
-    plt.plot(w1, w2, 'r', label='Trajectory')
-    plt.xlabel('w1')
-    plt.ylabel('w2')
-    plt.title(f'Gradient Descent Trajectory (lambda={learning_rate})')
-    plt.legend()
+    # Create meshgrid of w1 and w2 values
+    w1_vals = np.linspace(-2, 4, 100)
+    w2_vals = np.linspace(-2, 4, 100)
+    w1_grid, w2_grid = np.meshgrid(w1_vals, w2_vals)
+
+    # Evaluate the value of the cost function at each point on the meshgrid
+    cost_grid = f([w1_grid, w2_grid])
+
+    # Plot the contours of the cost function and the trajectory of the gradient descent algorithm
+    fig, ax = plt.subplots()
+    ax.contour(w1_grid, w2_grid, cost_grid, levels=np.logspace(-1, 3, 10))
+    ax.plot(w1, w2, 'bo-', label='Trajectory')
+    ax.set_xlabel('w1')
+    ax.set_ylabel('w2')
+    ax.set_title(f'Gradient Descent Trajectory (Lambda={learning_rate})')
+    ax.legend()
     plt.show()
+
